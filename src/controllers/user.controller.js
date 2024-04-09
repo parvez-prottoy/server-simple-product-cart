@@ -1,4 +1,7 @@
-const { postUserService } = require("../services/user.service");
+const {
+  postUserService,
+  postLogUserService,
+} = require("../services/user.service");
 
 /* 
     try {
@@ -14,6 +17,24 @@ const { postUserService } = require("../services/user.service");
   }
 
 */
+// !Login User
+const postLogUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const token = await postLogUserService({ email, password });
+    return res.status(200).json({
+      success: true,
+      message: "Login User.",
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+// !Create New User
 const postUser = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
@@ -32,4 +53,4 @@ const postUser = async (req, res) => {
   }
 };
 
-module.exports = { postUser };
+module.exports = { postUser, postLogUser };
